@@ -1,0 +1,25 @@
+version: '3.0'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: "./deploy/nginx/Dockerfile"
+    ports:
+      - "8080:80"
+    volumes:
+      - "./public:/www/public"
+      - "phpsocket:/var/run/"
+    environment:
+      - SERVER_NAME=localhost
+      - NGINX_PORT=80
+    depends_on:
+      - php
+  php:
+    build:
+      context: .
+      dockerfile: "./deploy/php/Dockerfile"
+    volumes:
+      - ".:/www"
+      - "phpsocket:/var/run/"
+volumes:
+  phpsocket:
