@@ -25,3 +25,14 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Consumer\MessageConsumer:
+        arguments:
+            - '@monolog.logger'
+
+    # Commands
+    App\Command\MessageProducerCommand:
+        arguments:
+            - '@old_sound_rabbit_mq.message_events_producer'
+        tags:
+            - { name: 'console.command' }
+
